@@ -1,0 +1,73 @@
+{
+  "recipes": [
+    {
+      "id": 1,
+      "name": "Пельмени",
+      "duration": 15,
+      "description": "",
+      "user": {
+        "id": 1,
+        "username": "test",
+        "password": "test",
+        "token": "jjb98uU8da9fas8dSksdjgisdfgw590we9FSH89sd9hhf"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Здобные булочки",
+      "duration": 130,
+      "user": {
+        "id": 2,
+        "username": "test1",
+        "password": "test1",
+        "token": "akgfikshdgh8JB89njkbjHJH8j88uasg"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Пельмени",
+      "duration": 15,
+      "user": {
+        "sub": "google-oauth2|105117264478745175784"
+      }
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Мясо"
+    },
+    {
+      "id": 2,
+      "name": "Тесто"
+    }
+  ],
+  "products_recipes": [
+    {
+      "productId": 1,
+      "recipeId": 1
+    },
+    {
+      "productId": 2,
+      "recipeId": 1
+    },
+    {
+      "productId": 2,
+      "recipeId": 2
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "test",
+      "password": "test",
+      "token": "jjb98uU8da9fas8dSksdjgisdfgw590we9FSH89sd9hhf"
+    },
+    {
+      "id": 2,
+      "username": "test1",
+      "password": "test1",
+      "token": "akgfikshdgh8JB89njkbjHJH8j88uasg"
+    }
+  ]
+}
