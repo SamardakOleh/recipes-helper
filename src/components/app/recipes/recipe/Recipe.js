@@ -36,7 +36,7 @@ class Recipe extends Component {
                 <div className={'card-footer d-flex justify-content-between'}>
                     <Link to={'/recipes/my/edit'}>
                         <button onClick={() => this.setRecipeInLocalStorage(this.props.recipe)}
-                                className={'btn btn-warning'}>Редактировать
+                                className={'btn btn-outline-warning'}>Редактировать
                         </button>
                     </Link>
                     <div/>

@@ -16,15 +16,18 @@ class Header extends Component {
 
 
     render() {
-        let logOutItem =
+        let logOutItem;
+        let isLoggedIn = this.props.authService.isLoggedIn();
+        if (isLoggedIn)
+            logOutItem =
             (
-                <div>
+                <div className={'d-flex'}>
+                    <img className={'rounded avatar'} src={JSON.parse(localStorage.getItem('profile')).picture}/>
                     <div onClick={() => this.props.authService.logout()}>
                         <Link className="nav-item nav-link" to={'/recipes'}>Выйти</Link>
                     </div>
                 </div>
             );
-        let isLoggedIn = this.props.authService.isLoggedIn();
 
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">

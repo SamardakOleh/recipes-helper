@@ -26,7 +26,11 @@ export default class AuthService {
         this.auth0.parseHash((err, authResult) => {
             if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult);
-                history.replace('/recipes');
+                this.getUser(authResult.accessToken).then(user => {
+                    localStorage.setItem('profile', JSON.stringify(user));
+                    history.replace('/recipes');
+                });
+
             } else if (err) {
                 history.replace(RECIPES_URL);
                 console.log(err);
@@ -71,6 +75,9 @@ export default class AuthService {
         })
     }
 
+    getUserProfile(){
+        return this._userProfile;
+    }
 
     login() {
         this.auth0.authorize();
