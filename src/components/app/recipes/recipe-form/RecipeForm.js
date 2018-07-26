@@ -73,7 +73,7 @@ class RecipeForm extends Component {
             fd.append('image', this.state.image, this.state.image.name);
             console.dir(fd);
             if (this.props.recipe)
-                axios.patch(`http://localhost:4000/recipes/${this.props.recipe._id}/images`, fd, {
+                axios.patch(`/recipes/${this.props.recipe._id}/images`, fd, {
                     headers: {
                         'content-type': 'multipart/form-data'
                     }

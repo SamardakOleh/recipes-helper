@@ -77,14 +77,14 @@ class Recipes extends Component {
         let url = '';
         if (this.props.forUser) {
 
-            url = `http://localhost:4000/recipes/my`;
+            url = `/recipes/my`;
             axios.get(url).then(recipes => this.setState({
                 recipes: recipes.data,
                 showRecipes: true
             }))
         }
         else {
-            url = `http://localhost:4000/recipes`;
+            url = `/recipes`;
             axios.get(url).then(recipes => this.setState({
                 recipes: recipes.data,
                 showRecipes: true

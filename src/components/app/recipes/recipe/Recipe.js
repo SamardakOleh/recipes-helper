@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 class Recipe extends Component {
 
     deleteRecipe = () => {
-        axios.delete(`http://localhost:4000/recipes/${this.props.recipe._id}`).then(() => {
+        axios.delete(`/recipes/${this.props.recipe._id}`).then(() => {
             this.props.onDeleteRecipe();
         })
     };
