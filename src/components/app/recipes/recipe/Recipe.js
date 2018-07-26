@@ -26,7 +26,9 @@ class Recipe extends Component {
         );
 
         let description = (
-            <div>Способ приготовления: {this.props.recipe.description}</div>
+                <div>
+                    Способ приготовления: {this.props.recipe.description}
+                </div>
         );
 
         let recipeFooter = null;
@@ -48,12 +50,15 @@ class Recipe extends Component {
         return (
             <div className={'col-lg-6 col-sm-11'}>
                 <div className={'card flex-wrap recipe-card m-2'}>
-                    <div className={'card-header d-flex justify-content-center'}>
+                    {this.props.recipe.image ?
+                        <img className={'recipe-image card-img-top'} src={`data: ${this.props.recipe.image.contentType};base64,${this.props.recipe.decodedImage}`} />
+                        : null}
+                    <h5 className={'card-title d-flex justify-content-center'}>
                         {this.props.recipe.name}
-                    </div>
+                    </h5>
                     <div className={'card-body'}>
                         <div>{description}</div>
-                        <div className={'d-flex justify-content-between mt-1'}>
+                        <div className={'card-footer text-muted d-flex justify-content-between mt-1'}>
                             {products}
                             {durationComponent}
                         </div>

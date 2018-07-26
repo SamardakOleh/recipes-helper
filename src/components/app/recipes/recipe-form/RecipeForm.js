@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 
 class RecipeForm extends Component {
     constructor(props) {
@@ -7,7 +8,7 @@ class RecipeForm extends Component {
             name: '',
             products: [],
             hours: 0,
-            minutes : 0,
+            minutes: 0,
             description: '',
             duration: Number.MAX_SAFE_INTEGER
         };
@@ -25,7 +26,7 @@ class RecipeForm extends Component {
         }
         this.setState({
             products: products
-        }, ()=>{
+        }, () => {
             this.props.onChange(this.state);
         });
     };
@@ -38,15 +39,15 @@ class RecipeForm extends Component {
         });
     };
 
-    handleDurationChange = () =>{
+    handleDurationChange = () => {
         let state = {...this.state};
-        state.duration = state.hours*60+state.minutes;
-        this.setState(state, ()=> {
+        state.duration = state.hours * 60 + state.minutes;
+        this.setState(state, () => {
             this.props.onChange(this.state);
         });
     };
 
-    handleTextChange = (e) =>{
+    handleTextChange = (e) => {
         let state = {...this.state};
         state[e.target.name] = e.target.value;
         this.setState(state, () => {
@@ -54,7 +55,7 @@ class RecipeForm extends Component {
         });
     };
 
-    deleteProductHandler(index){
+    deleteProductHandler(index) {
         let products = [...this.state.products];
         products.splice(index, 1);
         this.setState({
@@ -63,6 +64,25 @@ class RecipeForm extends Component {
             this.props.onChange(this.state);
         });
     }
+
+    onFileChange = (e) => {
+        this.setState({
+            image: e.target.files[0]
+        }, () => {
+            const fd = new FormData();
+            fd.append('image', this.state.image, this.state.image.name);
+            console.dir(fd);
+            if (this.props.recipe)
+                axios.patch(`http://localhost:4000/recipes/${this.props.recipe._id}/images`, fd, {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                })
+                    .then(r => console.log(r));
+
+        });
+        console.dir(e.target.files);
+    };
 
     parseDuration(duration) {
         let state = {...this.state};
@@ -79,9 +99,11 @@ class RecipeForm extends Component {
         let products = (
             <div>
                 {this.state.products.map((product, index) => {
-                    return <div key={product._id} className={'badge badge-dark ml-1  align-items-center justify-content-stretch flex-nowrap'}>
+                    return <div key={product._id}
+                                className={'badge badge-dark ml-1  align-items-center justify-content-stretch flex-nowrap'}>
                         <span className={''}>{product.name}</span>
-                        <button onClick={() => this.deleteProductHandler(index)} type="button" className="close " aria-label="Close">
+                        <button onClick={() => this.deleteProductHandler(index)} type="button" className="close "
+                                aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -90,7 +112,7 @@ class RecipeForm extends Component {
         );
 
         let state = {...this.state};
-        let recipe ={
+        let recipe = {
             _id: this.props.recipe ? this.props.recipe._id : null,
             name: state.name,
             products: state.products,
@@ -99,11 +121,14 @@ class RecipeForm extends Component {
         };
         let textArea = null;
 
-        if (!this.props.forFilter){
+        if (!this.props.forFilter) {
             textArea = (
                 <div>
                     <div>Описание</div>
-                    <textarea name="description" required={!this.props.forFilter} defaultValue={this.props.recipe ? this.props.recipe.description : ''} onChange={(e) => this.handleTextChange(e)} className={'form_control'} rows={3} placeholder={'Описание'}/>
+                    <textarea name="description" required={!this.props.forFilter}
+                              defaultValue={this.props.recipe ? this.props.recipe.description : ''}
+                              onChange={(e) => this.handleTextChange(e)} className={'form_control'} rows={3}
+                              placeholder={'Описание'}/>
                 </div>
             )
         }
@@ -112,8 +137,22 @@ class RecipeForm extends Component {
         for (let i = 1; i <= 5; i++) {
             hours.push(i)
         }
+
+        let imgInput;
+
+        if (!this.props.forFilter) {
+            imgInput = (
+                <div>
+                    <div>Фотографии</div>
+                    <input name={'img'} onChange={this.onFileChange} type={'file'} multiple={true} accept={'image/*,image/jpeg'}
+                           className={'form-control-file'}/>
+                </div>
+            )
+        }
+
         let hoursSelect = (
-            <select name="hours" onChange={this.handleTimeChange} className={'form-control'} id={'find-recipe-form-hours'}>
+            <select name="hours" onChange={this.handleTimeChange} className={'form-control'}
+                    id={'find-recipe-form-hours'}>
                 <option value={0}>Выбрать часы</option>
                 {hours.map(hour => {
                     return <option selected={this.state.hours == hour} value={hour}>{hour}</option>
@@ -127,7 +166,8 @@ class RecipeForm extends Component {
             minutes.push(i);
 
         minutsSelect = (
-            <select name="minutes" onChange={this.handleTimeChange} className={'form-control'} id={'find-recipe-form-minutes'}>
+            <select name="minutes" onChange={this.handleTimeChange} className={'form-control'}
+                    id={'find-recipe-form-minutes'}>
                 <option value={0}>Выбрать минуты</option>
                 {minutes.map(minute => {
                     return <option selected={this.state.minutes === minute} value={minute}>{minute}</option>
@@ -137,13 +177,17 @@ class RecipeForm extends Component {
         return (
             <div className={'card'}>
                 <div className={'card-body'}>
-                    <form onSubmit={e => this.props.submitHandler(e, recipe)} className={'form-group flex-column d-flex '}>
+                    <form onSubmit={e => this.props.submitHandler(e, recipe)}
+                          className={'form-group flex-column d-flex '}>
                         <span>Название рецепта</span>
-                        <input name="name" required={!this.props.forFilter} defaultValue={this.props.recipe ? this.props.recipe.name: ''} onChange={this.handleTextChange} className={'form-control'} type={'text'}
+                        <input name="name" required={!this.props.forFilter}
+                               defaultValue={this.props.recipe ? this.props.recipe.name : ''}
+                               onChange={this.handleTextChange} className={'form-control'} type={'text'}
                                id={'find-recipe-form-name'} placeholder={'Название'}/>
                         <span>Продукты (разделять ',')</span>
                         <span style={exampleText}>(На пример: мясо, сыр)</span>
-                        <input pattern={''} onChange={this.handleProductsChange} className={'form-control'} type={'text'}
+                        <input pattern={''} onChange={this.handleProductsChange} className={'form-control'}
+                               type={'text'}
                                id={'find-recipe-form-products'} placeholder={'Продукты'}/>
                         {products}
                         <span>Часы</span>
@@ -151,7 +195,9 @@ class RecipeForm extends Component {
                         <span>Минуты</span>
                         {minutsSelect}
                         {textArea}
-                        <button type={'submit'} className={'btn btn-outline-success mt-1 justify-content-center'}>{this.props.buttonName}</button>
+                        {imgInput}
+                        <button type={'submit'}
+                                className={'btn btn-outline-success mt-1 justify-content-center'}>{this.props.buttonName}</button>
                     </form>
                 </div>
             </div>
@@ -165,7 +211,7 @@ class RecipeForm extends Component {
             let state = {...this.state};
             state.hours = Math.floor(this.props.recipe.duration / 60);
             state.minutes = this.props.recipe.duration % 60;
-            state.duration = (state.hours*60)+state.minutes;
+            state.duration = (state.hours * 60) + state.minutes;
             state.products = this.props.recipe.products;
             state.name = this.props.recipe.name;
             state.description = this.props.recipe.description;
