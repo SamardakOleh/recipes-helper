@@ -30,7 +30,7 @@ class Header extends Component {
             );
 
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav className="navbar navbar-header navbar-expand-lg navbar-dark bg-dark">
                 <a className="navbar-brand">Brand</a>
                 <button className="navbar-toggler"
                         type="button"

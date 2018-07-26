@@ -73,7 +73,7 @@ class RecipeForm extends Component {
             fd.append('image', this.state.image, this.state.image.name);
             console.dir(fd);
             if (this.props.recipe)
-                axios.patch(`/recipes/${this.props.recipe._id}/images`, fd, {
+                axios.patch(`http://localhost:4000/api/recipes/${this.props.recipe._id}/images`, fd, {
                     headers: {
                         'content-type': 'multipart/form-data'
                     }
@@ -185,7 +185,7 @@ class RecipeForm extends Component {
                                onChange={this.handleTextChange} className={'form-control'} type={'text'}
                                id={'find-recipe-form-name'} placeholder={'Название'}/>
                         <span>Продукты (разделять ',')</span>
-                        <span style={exampleText}>(На пример: мясо, сыр)</span>
+                        <span style={exampleText}>(Например: мясо, сыр)</span>
                         <input pattern={''} onChange={this.handleProductsChange} className={'form-control'}
                                type={'text'}
                                id={'find-recipe-form-products'} placeholder={'Продукты'}/>

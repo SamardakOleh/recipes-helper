@@ -22,7 +22,7 @@ class UpdateRecipeForm extends Component {
 
     submit = (e, recipe) =>{
         e.preventDefault();
-        axios.patch(`/recipes/${recipe._id}`, recipe)
+        axios.patch(`http://localhost:4000/api/recipes/${recipe._id}`, recipe)
             .then(() => this.setState({...this.state, toMyRecipes: true}))
             .catch(console.error)
     };

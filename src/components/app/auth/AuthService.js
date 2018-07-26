@@ -15,7 +15,7 @@ export default class AuthService {
         this.auth0 = new auth0.WebAuth({
             domain: 'recipes-helper.eu.auth0.com',
             clientID: '38IcRzzEB7pdMGBikdv21JCMmTcVQHBm',
-            redirectUri: 'https://recipes-helper.herokuapp.com//callback',
+            redirectUri: 'https://recipes-helper.herokuapp.com/callback',
             audience: 'https://recipes-helper.eu.auth0.com/userinfo',
             responseType: 'token id_token',
             scope: 'openid profile'

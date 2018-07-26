@@ -3,13 +3,15 @@ import RecipeForm from "../RecipeForm";
 import '../create-recipe.css'
 import axios from 'axios'
 import {Redirect} from "react-router-dom";
+import Loader from "../../../util/Loader";
 
 class CreateRecipeForm extends Component {
     constructor() {
         super();
         this.state ={
             formRecipe: {},
-            toMyRecipes: false
+            toMyRecipes: false,
+            loader: false
         };
         this.addFormSubmit = this.addFormSubmit.bind(this);
     }
@@ -22,12 +24,15 @@ class CreateRecipeForm extends Component {
 
     addFormSubmit(e, recipe){
         e.preventDefault();
-        axios.post('/recipes', recipe)
-            .then(() => this.setState({...this.state, toMyRecipes: true}))
+        this.setState({...this.state, loader: true});
+        axios.post('http://localhost:4000/api/recipes', recipe)
+            .then(() => this.setState({...this.state, toMyRecipes: true, loader:false}))
             .catch(e => console.error(e));
     }
 
     render() {
+        if (this.state.loader)
+            return <Loader/>;
         if (this.state.toMyRecipes)
             return <Redirect to={'/recipes/my'}/>;
         return (

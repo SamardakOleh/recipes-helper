@@ -44,7 +44,6 @@ class App extends Component {
                             <Route exact path={'/recipes/my/edit'} render={props => {
                                 return <UpdateRecipeForm recipe={JSON.parse(localStorage.getItem('recipeForEdit'))} {...props}/>
                             }}/>
-
                         </Switch>
                     </div>
                 </div>

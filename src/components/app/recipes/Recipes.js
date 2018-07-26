@@ -3,6 +3,7 @@ import Recipe from "./recipe/Recipe";
 import './recipes.css'
 import FindRecipeForm from "./recipe-form/wrappers/FindRecipeForm";
 import axios from 'axios'
+import Loader from "../util/Loader";
 
 class Recipes extends Component {
     constructor(props) {
@@ -30,7 +31,9 @@ class Recipes extends Component {
 
     render() {
         let recipes = null;
-        if (this.state.showRecipes && this.state.recipes.length !== 0) {
+        if (!this.state.showRecipes)
+            recipes = <Loader/>;
+        else if (this.state.recipes.length !== 0) {
             recipes = (
                 <div className={'col-lg-8 col-sm-11'}>
                     <div className={'row'}>
@@ -54,7 +57,7 @@ class Recipes extends Component {
                 </div>
             )
         }
-        else if (this.props.forUser && this.state.showRecipes && this.state.recipes.length === 0)
+        else if (this.props.forUser && this.state.recipes.length === 0)
             recipes = (
                 <div className={'col-lg-8 col-sm-11'}>
                     <div className={'row'}>
@@ -74,17 +77,18 @@ class Recipes extends Component {
     }
 
     getRecipes = () => {
+        this.state.showRecipes = false;
         let url = '';
         if (this.props.forUser) {
 
-            url = `/recipes/my`;
+            url = `http://localhost:4000/api/recipes/my`;
             axios.get(url).then(recipes => this.setState({
                 recipes: recipes.data,
                 showRecipes: true
             }))
         }
         else {
-            url = `/recipes`;
+            url = `http://localhost:4000/api/recipes`;
             axios.get(url).then(recipes => this.setState({
                 recipes: recipes.data,
                 showRecipes: true
