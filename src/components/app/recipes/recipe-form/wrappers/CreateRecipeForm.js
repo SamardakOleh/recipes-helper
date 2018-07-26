@@ -10,7 +10,8 @@ class CreateRecipeForm extends Component {
         this.state ={
             formRecipe: {},
             toMyRecipes: false
-        }
+        };
+        this.addFormSubmit = this.addFormSubmit.bind(this);
     }
 
     onChange = (formRecipe) =>{
@@ -21,11 +22,9 @@ class CreateRecipeForm extends Component {
 
     addFormSubmit(e, recipe){
         e.preventDefault();
-        axios.post('/recipes', recipe).then(() => {
-            let state = {...this.state};
-            state.toMyRecipes = true;
-            this.setState(state);
-        }).catch(e => console.error(e));
+        axios.post('/recipes', recipe)
+            .then(() => this.setState({...this.state, toMyRecipes: true}))
+            .catch(e => console.error(e));
     }
 
     render() {
