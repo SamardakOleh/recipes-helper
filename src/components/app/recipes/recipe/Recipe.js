@@ -2,13 +2,16 @@ import React, {Component} from 'react';
 import './recipe.css';
 import axios from 'axios'
 import {Link} from "react-router-dom";
+import {NotificationManager} from "react-notifications";
 
 class Recipe extends Component {
 
     deleteRecipe = () => {
-        axios.delete(`/api/recipes/${this.props.recipe._id}`).then(() => {
-            this.props.onDeleteRecipe();
-        })
+        axios.delete(`/api/recipes/${this.props.recipe._id}`)
+            .then(() => {
+                this.props.onDeleteRecipe();
+            })
+            .catch(e => NotificationManager.error('An error', `${e.message}`));
     };
 
     render() {
@@ -26,9 +29,9 @@ class Recipe extends Component {
         );
 
         let description = (
-                <div>
-                    Способ приготовления: {this.props.recipe.description}
-                </div>
+            <div>
+                Способ приготовления: {this.props.recipe.description}
+            </div>
         );
 
         let recipeFooter = null;
@@ -51,7 +54,8 @@ class Recipe extends Component {
             <div className={'col-lg-6 col-sm-11'}>
                 <div className={'card flex-wrap recipe-card m-2'}>
                     {this.props.recipe.image ?
-                        <img className={'recipe-image card-img-top'} src={`data: ${this.props.recipe.image.contentType};base64,${this.props.recipe.decodedImage}`} />
+                        <img className={'recipe-image card-img-top'}
+                             src={`data: ${this.props.recipe.image.contentType};base64,${this.props.recipe.decodedImage}`}/>
                         : null}
                     <h5 className={'card-title d-flex justify-content-center'}>
                         {this.props.recipe.name}

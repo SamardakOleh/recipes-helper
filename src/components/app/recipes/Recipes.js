@@ -4,6 +4,7 @@ import './recipes.css'
 import FindRecipeForm from "./recipe-form/wrappers/FindRecipeForm";
 import axios from 'axios'
 import Loader from "../util/Loader";
+import { NotificationManager} from 'react-notifications';
 
 class Recipes extends Component {
     constructor(props) {
@@ -87,19 +88,26 @@ class Recipes extends Component {
         if (this.props.forUser) {
 
             url = `/api/recipes/my`;
-            axios.get(url).then(recipes => this.setState({
+            axios.get(url)
+                .then(recipes => this.setState({
                 recipes: recipes.data,
                 showRecipes: true,
-                loader : false
-        }))
+                loader: false
+            }))
+                .catch(e => NotificationManager.success('An error', e)
+        )
         }
         else {
             url = `/api/recipes`;
-            axios.get(url).then(recipes => this.setState({
-                recipes: recipes.data,
-                showRecipes: true,
-                loader : false
-            }))
+            axios.get(url)
+                .then(recipes => {
+                this.setState({
+                    recipes: recipes.data,
+                    showRecipes: true,
+                    loader: false
+                })
+            }).catch(e => NotificationManager.error('An error', `${e.message}`));
+
         }
 
     };

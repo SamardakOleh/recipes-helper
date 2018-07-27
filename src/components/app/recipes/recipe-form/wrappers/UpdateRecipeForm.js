@@ -3,6 +3,7 @@ import RecipeForm from "../RecipeForm";
 import '../create-recipe.css'
 import axios from 'axios'
 import {Redirect} from "react-router-dom";
+import {NotificationManager} from "react-notifications";
 
 class UpdateRecipeForm extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ class UpdateRecipeForm extends Component {
     submit = (recipe) =>{
         axios.patch(`/api/recipes/${recipe._id}`, recipe)
             .then(() => this.setState({...this.state, toMyRecipes: true}))
-            .catch(console.error)
+            .catch(e => NotificationManager.error('An error', `${e.message}`));
     };
 
     render() {

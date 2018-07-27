@@ -4,6 +4,7 @@ import '../create-recipe.css'
 import axios from 'axios'
 import {Redirect} from "react-router-dom";
 import Loader from "../../../util/Loader";
+import {NotificationManager} from "react-notifications";
 
 class CreateRecipeForm extends Component {
     constructor() {
@@ -26,7 +27,7 @@ class CreateRecipeForm extends Component {
         this.setState({...this.state, loader: true});
         axios.post('/api/recipes', recipe)
             .then(() => this.setState({...this.state, toMyRecipes: true, loader:false}))
-            .catch(e => console.error(e));
+            .catch(e => NotificationManager.error('An error', `${e.message}`));
     }
 
     render() {

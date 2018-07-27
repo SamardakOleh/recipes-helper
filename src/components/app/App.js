@@ -10,6 +10,9 @@ import Callback from "./util/Callback";
 import CreateRecipeForm from "./recipes/recipe-form/wrappers/CreateRecipeForm";
 import axios from "axios/index";
 import UpdateRecipeForm from "./recipes/recipe-form/wrappers/UpdateRecipeForm";
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 
 const authService = new AuthService();
 const handleAuthentication = (nextState, replace) => {
@@ -46,6 +49,7 @@ class App extends Component {
                             }}/>
                         </Switch>
                     </div>
+                    <NotificationContainer/>
                 </div>
             </Router>
 
