@@ -13,7 +13,8 @@ class Recipes extends Component {
             recipes: [],
             filteredRecipes: [],
             showFilteredRecipes: false,
-            showRecipes: false
+            showRecipes: false,
+            loader: true
         }
     }
 
@@ -30,14 +31,10 @@ class Recipes extends Component {
     };
 
     render() {
+        if (this.state.loader)
+            return <Loader/>;
         let recipes = null;
-        if (!this.state.showRecipes)
-            recipes = (
-                <div className={'m-auto'}>
-                    <Loader/>
-                </div>
-            );
-        else if (this.state.recipes.length !== 0) {
+        if (this.state.recipes.length !== 0 && this.state.showRecipes) {
             recipes = (
                 <div className={'col-lg-8 col-sm-11'}>
                     <div className={'row'}>
@@ -81,21 +78,27 @@ class Recipes extends Component {
     }
 
     getRecipes = () => {
-        this.state.showRecipes = false;
+        this.setState({
+            showRecipes: false,
+            showFilteredRecipes: false,
+            loader: true
+        });
         let url = '';
         if (this.props.forUser) {
 
             url = `/api/recipes/my`;
             axios.get(url).then(recipes => this.setState({
                 recipes: recipes.data,
-                showRecipes: true
-            }))
+                showRecipes: true,
+                loader : false
+        }))
         }
         else {
             url = `/api/recipes`;
             axios.get(url).then(recipes => this.setState({
                 recipes: recipes.data,
-                showRecipes: true
+                showRecipes: true,
+                loader : false
             }))
         }
 
