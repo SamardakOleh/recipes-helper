@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './header.css';
 import {Link} from "react-router-dom";
+import sweetroll from "./SweetRoll.png"
 
 class Header extends Component {
     authService;
@@ -31,7 +32,7 @@ class Header extends Component {
 
         return (
             <nav className="navbar navbar-header navbar-expand-lg navbar-dark bg-dark">
-                <a className="navbar-brand">Brand</a>
+                <img src={sweetroll} className="roll navbar-brand"/>
                 <button className="navbar-toggler"
                         type="button"
                         data-toggle="collapse"

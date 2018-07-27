@@ -32,7 +32,11 @@ class Recipes extends Component {
     render() {
         let recipes = null;
         if (!this.state.showRecipes)
-            recipes = <Loader/>;
+            recipes = (
+                <div className={'m-auto'}>
+                    <Loader/>
+                </div>
+            );
         else if (this.state.recipes.length !== 0) {
             recipes = (
                 <div className={'col-lg-8 col-sm-11'}>
@@ -81,14 +85,14 @@ class Recipes extends Component {
         let url = '';
         if (this.props.forUser) {
 
-            url = `http://localhost:4000/api/recipes/my`;
+            url = `/api/recipes/my`;
             axios.get(url).then(recipes => this.setState({
                 recipes: recipes.data,
                 showRecipes: true
             }))
         }
         else {
-            url = `http://localhost:4000/api/recipes`;
+            url = `/api/recipes`;
             axios.get(url).then(recipes => this.setState({
                 recipes: recipes.data,
                 showRecipes: true

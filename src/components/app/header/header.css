@@ -2,6 +2,11 @@
     cursor: pointer;
 }
 
+.roll{
+    height: 45px;
+    width: 45px;
+}
+
 .avatar {
     width: 30px;
     height: 30px;

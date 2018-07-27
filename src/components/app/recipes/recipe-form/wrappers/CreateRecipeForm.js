@@ -25,7 +25,7 @@ class CreateRecipeForm extends Component {
     addFormSubmit(e, recipe){
         e.preventDefault();
         this.setState({...this.state, loader: true});
-        axios.post('http://localhost:4000/api/recipes', recipe)
+        axios.post('/api/recipes', recipe)
             .then(() => this.setState({...this.state, toMyRecipes: true, loader:false}))
             .catch(e => console.error(e));
     }
