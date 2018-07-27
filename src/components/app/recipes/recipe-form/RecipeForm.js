@@ -48,6 +48,7 @@ class RecipeForm extends Component {
             product.name = product.name.slice(0, product.name.length - 1);
             e.target.value = '';
             products.push(product);
+            state.productsInput = '';
         }
         this.setState({
             products: products
