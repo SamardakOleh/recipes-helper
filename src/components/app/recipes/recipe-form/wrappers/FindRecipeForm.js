@@ -10,8 +10,7 @@ class FindRecipeForm extends Component {
         }
     }
 
-    submit = (e) => {
-        e.preventDefault();
+    submit = () => {
         this.find();
     };
 

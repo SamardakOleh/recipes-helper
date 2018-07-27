@@ -20,8 +20,7 @@ class UpdateRecipeForm extends Component {
         this.setState(state)
     };
 
-    submit = (e, recipe) =>{
-        e.preventDefault();
+    submit = (recipe) =>{
         axios.patch(`/api/recipes/${recipe._id}`, recipe)
             .then(() => this.setState({...this.state, toMyRecipes: true}))
             .catch(console.error)

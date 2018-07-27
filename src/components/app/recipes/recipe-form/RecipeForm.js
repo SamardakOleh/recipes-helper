@@ -10,17 +10,40 @@ class RecipeForm extends Component {
             hours: 0,
             minutes: 0,
             description: '',
-            duration: Number.MAX_SAFE_INTEGER
+            duration: Number.MAX_SAFE_INTEGER,
+            productsInput: ''
         };
         this.props = props;
     }
 
+    submit = (e) => {
+        e.preventDefault();
+        let state = {...this.state};
+        if (this.state.productsInput !== '') {
+            state.products.push({name: this.state.productsInput});
+            state.productsInput = '';
+        }
 
+        let recipe = {
+            _id: this.props.recipe ? this.props.recipe._id : null,
+            name: state.name,
+            products: state.products,
+            duration: state.duration,
+            description: state.description
+        };
+        this.setState(state, () => {
+            this.props.submitHandler(recipe);
+        });
+
+    };
 
     handleProductsChange = (e) => {
         let product = {};
         product.name = e.target.value;
         let products = [...this.state.products];
+        let state = {...this.state};
+        state.productsInput = e.target.value;
+        this.setState(state);
         if (product.name.includes(',')) {
             product.name = product.name.slice(0, product.name.length - 1);
             e.target.value = '';
@@ -113,14 +136,7 @@ class RecipeForm extends Component {
             </div>
         );
 
-        let state = {...this.state};
-        let recipe = {
-            _id: this.props.recipe ? this.props.recipe._id : null,
-            name: state.name,
-            products: state.products,
-            duration: state.duration,
-            description: state.description
-        };
+
         let textArea = null;
 
         if (!this.props.forFilter) {
@@ -179,7 +195,7 @@ class RecipeForm extends Component {
         return (
             <div className={'card'}>
                 <div className={'card-body'}>
-                    <form onSubmit={e => this.props.submitHandler(e, recipe)}
+                    <form onSubmit={e => this.submit(e)}
                           className={'form-group flex-column d-flex '}>
                         <span>Название рецепта</span>
                         <input name="name" required={!this.props.forFilter}
@@ -188,7 +204,7 @@ class RecipeForm extends Component {
                                id={'find-recipe-form-name'} placeholder={'Название'}/>
                         <span>Продукты (разделять ',')</span>
                         <span style={exampleText}>(Например: мясо, сыр)</span>
-                        <input pattern={''} onChange={this.handleProductsChange} className={'form-control'}
+                        <input value={this.state.productsInput} onChange={this.handleProductsChange} className={'form-control'}
                                type={'text'}
                                id={'find-recipe-form-products'} placeholder={'Продукты'}/>
                         {products}
