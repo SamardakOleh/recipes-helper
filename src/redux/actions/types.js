@@ -1,0 +1,11 @@
+export const SET_USER = 'SET_USER';
+export const AUTHORIZE = 'AUTHORIZE';
+export const EDIT_RECIPE = 'EDIT_RECIPE';
+export const HANDLE_AUTH = 'HANDLE_AUTH';
+export const LOG_OUT = 'LOG_OUT';
+export const GET_RECIPES = 'GET_RECIPES';
+export const GET_MY_RECIPES = 'GET_MY_RECIPES';
+export const FILTER_RECIPES = 'FILTER_RECIPES';
+export const SHOW_FILTERED_RECIPES = 'SHOW_FILTER_RECIPES';
+export const SHOW_RECIPES = 'SHOW_RECIPES';
+export const SHOW_LOADER = 'SHOW_LOADER';
